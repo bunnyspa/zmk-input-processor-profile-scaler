@@ -6,9 +6,6 @@ When connected via USB, the fallback ratio is used.
 
 ## Getting Started
 
-> [!NOTE]
-> `fallback-numerator` / `fallback-denominator` replaces `&zip_xy_scaler` — using both in the same chain will apply scaling twice.
-
 ### `config/west.yml`
 
 ```yaml
@@ -41,7 +38,10 @@ CONFIG_ZMK_POINTING=y
 CONFIG_ZMK_INPUT_PROCESSOR_PROFILE_SCALER=y
 ```
 
-### `<keyboard>.overlay` / `<keyboard>.dtsi`
+### `<keyboard>.overlay` or `<keyboard>.dtsi`
+
+> [!NOTE]
+> If you were using `&zip_xy_scaler`, remove it — using both in the same chain will apply scaling twice.
 
 Include the template and override with your ratios:
 
@@ -61,16 +61,11 @@ Include the template and override with your ratios:
 };
 ```
 
-Then add `&profile_scaler` to your input listener, replacing `&zip_xy_scaler`. `pointing_device_listener` is a placeholder — use your actual listener name (e.g. `trackball_listener` for PMW3610):
+Then add `&profile_scaler` to your input listener. `pointing_device_listener` is a placeholder — use your actual listener name (e.g. `trackball_listener` for PMW3610):
 
 ```c
 &pointing_device_listener {
-    input-processors = <
-        &threshold 100 2000
-        &zip_temp_layer 5 1000
-        &pointer_accel
-        &profile_scaler        /* replaces &zip_xy_scaler 1 2 */
-    >;
+    input-processors = <&profile_scaler>;
 };
 ```
 
