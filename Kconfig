@@ -1,0 +1,4 @@
+config ZMK_INPUT_PROCESSOR_PROFILE_SCALER
+    bool "Per-BT-profile XY input scaler"
+    depends on ZMK_POINTING
+    depends on ZMK_BLE

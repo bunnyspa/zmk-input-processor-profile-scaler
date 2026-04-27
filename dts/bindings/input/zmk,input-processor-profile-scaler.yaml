@@ -1,0 +1,48 @@
+description: |
+  Scales XY input events by a per-BT-profile numerator/denominator ratio.
+  The active BT profile index is looked up in the `profiles` array and the
+  matching ratio is applied. Falls back to `fallback-numerator` /
+  `fallback-denominator` when connected via USB or when the active profile
+  is not listed in `profiles`.
+
+  Example:
+    profile_scaler: profile_scaler {
+        compatible = "zmk,input-processor-profile-scaler";
+        #input-processor-cells = <0>;
+        profiles = <
+            // profile  num  den
+               0        1    2    /* PC     */
+               1        1    1    /* laptop */
+               2        2    3    /* phone  */
+        >;
+        // USB and unlisted profiles
+        fallback-numerator = <1>;
+        fallback-denominator = <2>;
+    };
+
+compatible: "zmk,input-processor-profile-scaler"
+
+include: base.yaml
+
+properties:
+  "#input-processor-cells":
+    type: int
+    const: 0
+
+  profiles:
+    type: array
+    description: >
+      Flat array of (profile, numerator, denominator) triplets.
+      Profile indices can be listed in any order and do not need to be contiguous.
+      Must contain a multiple of 3 entries.
+      If omitted, all connections use the fallback ratio.
+
+  fallback-numerator:
+    type: int
+    required: true
+    description: Numerator used for USB connections and unlisted BT profiles.
+
+  fallback-denominator:
+    type: int
+    required: true
+    description: Denominator used for USB connections and unlisted BT profiles.

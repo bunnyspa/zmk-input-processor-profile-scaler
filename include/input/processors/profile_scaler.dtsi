@@ -1,0 +1,6 @@
+/ {
+    profile_scaler: profile_scaler {
+        compatible = "zmk,input-processor-profile-scaler";
+        #input-processor-cells = <0>;
+    };
+};
