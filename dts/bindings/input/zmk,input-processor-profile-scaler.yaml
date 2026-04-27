@@ -46,3 +46,7 @@ properties:
     type: int
     required: true
     description: Denominator used for USB connections and unlisted BT profiles.
+
+  track-remainders:
+    type: boolean
+    description: Required for ZMK input listener compatibility. Remainders are always tracked internally.
